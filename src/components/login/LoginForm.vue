@@ -6,6 +6,7 @@ import { useRouter } from 'vue-router'
 import { toast } from 'vue3-toastify'
 
 const router = useRouter()
+const url = import.meta.env.VITE_BACKEND
 
 const username = ref('')
 const password = ref('')
@@ -42,7 +43,7 @@ export default {
       }
 
       try {
-        const response = await axios.post('http://localhost:3001/api/login', user)
+        const response = await axios.post(`${url}/login`, user)
         localStorage.setItem('to-do-user', JSON.stringify(response.data))
         router.push({ name: 'home' })
       } catch (error) {

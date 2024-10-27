@@ -2,5 +2,6 @@
 
 (\*) Please install backend first.
 
-1. Run npm i
-2. Run npm run dev
+1. Create a new **.env** file using the **.env.example** as template
+2. Run npm i
+3. Run npm run dev

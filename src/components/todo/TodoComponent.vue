@@ -8,6 +8,7 @@ const router = useRouter()
 const route = useRoute()
 const id = route.params.id
 const isUpdate = route.query && Object.keys(route.query).length > 0
+const url = import.meta.env.VITE_BACKEND
 
 const priorityList = [
   { id: 1, priority: 0 },
@@ -49,18 +50,17 @@ const handleSubmit = async () => {
     }
 
     if (isUpdate) {
-      await axios.put(`http://localhost:3001/api/tasks/${id}`, newTask)
+      await axios.put(`${url}/tasks/${id}`, newTask)
       toast.success('Task added succesfully.')
       setTimeout(() => {
         router.push({ name: 'home' })
-        window.location.href = 'http://localhost:3000'
-      })
+      }, 1500)
     } else {
-      await axios.post('http://localhost:3001/api/tasks/new', newTask)
+      await axios.post(`${url}/tasks/new`, newTask)
       toast.success('Task added succesfully.')
       setTimeout(() => {
         router.push({ name: 'home' })
-      })
+      }, 1500)
     }
 
     name.value = ''

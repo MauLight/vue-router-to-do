@@ -6,6 +6,7 @@ import axios from 'axios'
 
 const router = useRouter()
 const loading = ref(true)
+const url = import.meta.env.VITE_BACKEND
 
 const user = JSON.parse(localStorage.getItem('to-do-user'))
 if (!user) {
@@ -32,7 +33,7 @@ const handleUpdateTask = (taskId) => {
 
 const handleDeleteTask = async (taskId) => {
   try {
-    await axios.delete(`http://localhost:3001/api/tasks/${taskId}`)
+    await axios.delete(`${url}/tasks/${taskId}`)
     tasks.value = tasks.value.filter(task => task.id !== taskId)
     toast.success('Task deleted succesfully.')
   } catch (error) {
@@ -42,7 +43,7 @@ const handleDeleteTask = async (taskId) => {
 
 onMounted(async () => {
   try {
-    const response = await axios.post(`http://localhost:3001/api/tasks/${user.id}`, { token: user.token })
+    const response = await axios.post(`${url}/tasks/${user.id}`, { token: user.token })
     tasks.value = response.data || []
   } catch (error) {
     toast.error(error.response.data.message)

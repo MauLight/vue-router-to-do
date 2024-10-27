@@ -6,6 +6,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+const url = import.meta.env.VITE_BACKEND
 
 const username = ref('')
 const password = ref('')
@@ -44,7 +45,7 @@ export default {
       }
 
       try {
-        await axios.post('http://localhost:3001/api/user', user)
+        await axios.post(`${url}/user`, user)
         toast.success('User created succesfully.')
         setTimeout(() => {
           router.push({ name: 'login' })
