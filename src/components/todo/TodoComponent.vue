@@ -7,6 +7,8 @@ import axios from 'axios'
 const router = useRouter()
 const route = useRoute()
 const id = route.params.id
+
+//* Check if create or update by checking if a query was passed in the url.
 const isUpdate = route.query && Object.keys(route.query).length > 0
 const url = import.meta.env.VITE_BACKEND
 
@@ -22,6 +24,7 @@ const dueDate = ref('')
 const priority = ref(0)
 
 onMounted(() => {
+  //* If update, pass current values to the form.
   if (isUpdate) {
     name.value = route.query.name || ''
     description.value = route.query.description || ''
@@ -31,12 +34,14 @@ onMounted(() => {
 })
 
 const handleSubmit = async () => {
+  //* name is a required field.
   if (name.value === '') {
     toast.error('Please add all the fields.')
     return
   }
 
   try {
+    //* Retrieve token and userId from localStorage.
     const token = await JSON.parse(localStorage.getItem('to-do-user')).token
     const userId = await JSON.parse(localStorage.getItem('to-do-user')).id
 
@@ -49,6 +54,7 @@ const handleSubmit = async () => {
       priority: priority.value
     }
 
+    //* Run update or create method depending on desired action.
     if (isUpdate) {
       await axios.put(`${url}/tasks/${id}`, newTask)
       toast.success('Task added succesfully.')
@@ -63,6 +69,7 @@ const handleSubmit = async () => {
       }, 1500)
     }
 
+    //* Reset form upon completion.
     name.value = ''
     description.value = ''
     dueDate.value = ''

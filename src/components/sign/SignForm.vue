@@ -8,6 +8,7 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 const url = import.meta.env.VITE_BACKEND
 
+//* Set initial form state
 const username = ref('')
 const password = ref('')
 
@@ -24,6 +25,7 @@ export default {
     }
   },
   methods: {
+    //* Receive @emit values
     handleInputValueUsername(value) {
       username.value = value
     },
@@ -45,6 +47,7 @@ export default {
       }
 
       try {
+        //* Post credentials and navigate to login.
         await axios.post(`${url}/user`, user)
         toast.success('User created succesfully.')
         setTimeout(() => {

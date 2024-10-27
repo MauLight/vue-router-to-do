@@ -8,6 +8,7 @@ export default {
     }
   },
   computed: {
+    //* handle label animation via dynamic classes.
     labelClass() {
       return {
         'absolute': true,
@@ -18,6 +19,7 @@ export default {
     }
   },
   methods: {
+    //* Emit input value on change.
     emitInputValue() {
       this.$emit('input-value', this.fieldValue)
     }

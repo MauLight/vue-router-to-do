@@ -8,6 +8,8 @@ import { toast } from 'vue3-toastify'
 const router = useRouter()
 const url = import.meta.env.VITE_BACKEND
 
+
+//* Set initial form state
 const username = ref('')
 const password = ref('')
 
@@ -24,6 +26,7 @@ export default {
     }
   },
   methods: {
+    //* Receive @emit values
     handleInputValueUsername(value) {
       username.value = value
     },
@@ -43,6 +46,7 @@ export default {
       }
 
       try {
+        //* Post user credentials and save respose to localStorage
         const response = await axios.post(`${url}/login`, user)
         localStorage.setItem('to-do-user', JSON.stringify(response.data))
         router.push({ name: 'home' })
