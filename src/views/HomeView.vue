@@ -8,7 +8,6 @@ const router = useRouter()
 const loading = ref(true)
 
 const user = JSON.parse(localStorage.getItem('to-do-user'))
-console.log(user.token)
 if (!user) {
   router.push({ name: 'login' })
 }
