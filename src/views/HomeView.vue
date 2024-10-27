@@ -1,5 +1,6 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue'
+import { VueSpinnerIos } from 'vue3-spinners'
 import { useRouter } from 'vue-router'
 import { toast } from 'vue3-toastify'
 import axios from 'axios'
@@ -64,7 +65,7 @@ onMounted(async () => {
 <template>
   <div v-if="loading" class="w-full flex justify-center pt-[10rem]">
     <div class="w-full max-w-[1400px] min-h-screen flex flex-col justify-start items-center">
-      <p>Loading...</p>
+      <VueSpinnerIos size="20" color="#10100e" />
     </div>
   </div>
   <div v-else class="w-full flex justify-center pt-[10rem]">
