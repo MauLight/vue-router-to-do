@@ -15,7 +15,7 @@ if (!user) {
 
 //* Loader state
 const loading = ref(true)
-const tasks = ref(user.tasks || [])
+const tasks = ref(user?.tasks || [])
 
 const homeTitle = computed(() => {
   return tasks.value.length > 0 ? 'Your tasks' : ''
