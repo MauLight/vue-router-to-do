@@ -7,15 +7,15 @@ import axios from 'axios'
 const router = useRouter()
 const url = import.meta.env.VITE_BACKEND
 
-//* Loader state
-const loading = ref(true)
-const tasks = ref(user.tasks || [])
-
 //* Revoke access if no user is logged in.
 const user = JSON.parse(localStorage.getItem('to-do-user'))
 if (!user) {
   router.push({ name: 'login' })
 }
+
+//* Loader state
+const loading = ref(true)
+const tasks = ref(user.tasks || [])
 
 const homeTitle = computed(() => {
   return tasks.value.length > 0 ? 'Your tasks' : ''
@@ -52,7 +52,7 @@ onMounted(async () => {
     const response = await axios.post(`${url}/tasks/${user.id}`, { token: user.token })
     tasks.value = response.data || []
   } catch (error) {
-    toast.error(error.response.data.message)
+    toast.error(error.message)
   } finally {
     loading.value = false
   }
