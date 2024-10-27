@@ -51,7 +51,6 @@ onMounted(async () => {
   try {
     //* Retrieve current user's task list.
     const response = await axios.post(`${url}/tasks/${user.id}`, { token: user.token })
-    console.log(response.data)
     tasks.value = response.data || []
   } catch (error) {
     toast.error(error.message)

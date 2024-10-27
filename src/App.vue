@@ -6,7 +6,6 @@ import { ref, watch } from 'vue'
 const router = useRouter()
 const route = useRoute()
 const hasNav = ref(route.name !== 'login' && route.name !== 'sign')
-console.log(route.name)
 
 watch(
   () => route.name,
