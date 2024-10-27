@@ -33,12 +33,10 @@ const handleUpdateTask = (taskId) => {
 
 const handleDeleteTask = async (taskId) => {
   try {
-    const response = await axios.delete(`http://localhost:3001/api/tasks/${taskId}`)
-    console.log(response)
+    await axios.delete(`http://localhost:3001/api/tasks/${taskId}`)
     tasks.value = tasks.value.filter(task => task.id !== taskId)
     toast.success('Task deleted succesfully.')
   } catch (error) {
-    console.log(error)
     toast.error(error.message)
   }
 }
