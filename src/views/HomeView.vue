@@ -39,7 +39,13 @@ const handleUpdateTask = (taskId) => {
 
 const handleDeleteTask = async (taskId) => {
   try {
-    await axios.delete(`${url}/tasks/${taskId}`)
+    await axios.delete(`${url}/tasks/${taskId}`, {
+      headers: {
+        'Authorization': `Bearer ${user.token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+
     tasks.value = tasks.value.filter(task => task.id !== taskId)
     toast.success('Task deleted succesfully.')
   } catch (error) {
@@ -50,7 +56,13 @@ const handleDeleteTask = async (taskId) => {
 onMounted(async () => {
   try {
     //* Retrieve current user's task list.
-    const response = await axios.post(`${url}/tasks/${user.id}`, { token: user.token })
+    const response = await axios.get(`${url}/tasks/${user.id}`, {
+      headers: {
+        'Authorization': `Bearer ${user.token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+
     tasks.value = response.data || []
   } catch (error) {
     toast.error(error.message)

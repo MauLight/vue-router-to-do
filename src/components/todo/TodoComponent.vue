@@ -42,11 +42,10 @@ const handleSubmit = async () => {
 
   try {
     //* Retrieve token and userId from localStorage.
-    const token = await JSON.parse(localStorage.getItem('to-do-user')).token
     const userId = await JSON.parse(localStorage.getItem('to-do-user')).id
+    const token = await JSON.parse(localStorage.getItem('to-do-user')).token
 
     const newTask = {
-      token,
       userId,
       name: name.value,
       description: description.value,
@@ -56,13 +55,23 @@ const handleSubmit = async () => {
 
     //* Run update or create method depending on desired action.
     if (isUpdate) {
-      await axios.put(`${url}/tasks/${id}`, newTask)
+      await axios.put(`${url}/tasks/${id}`, newTask, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      })
       toast.success('Task added succesfully.')
       setTimeout(() => {
         router.push({ name: 'home' })
       }, 1500)
     } else {
-      await axios.post(`${url}/tasks/new`, newTask)
+      await axios.post(`${url}/tasks`, newTask, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      })
       toast.success('Task added succesfully.')
       setTimeout(() => {
         router.push({ name: 'home' })
