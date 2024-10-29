@@ -56,7 +56,7 @@ const handleSubmit = async () => {
   <form @submit.prevent="handleSubmit" class="w-full flex flex-col gap-y-2 items-center justify-center">
     <InputComponent @input-value="handleInputValueUsername" :label="labelUsername" :type="typeUsername" />
     <InputComponent @input-value="handleInputValuePassword" :label="labelPassword" :type="typePassword" />
-    <button @click="handleSubmit"
+    <button type="submit"
       class="w-1/2 xl:w-1/3 h-10 mt-2 bg-[#10100e] text-[#ffffff] text-[0.8rem] rounded-[8px]">Submit</button>
   </form>
   <p class="text-[0.8rem]">Don't have an account?
