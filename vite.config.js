@@ -10,6 +10,9 @@ export default defineConfig({
     vue(),
     vueJsx(),
   ],
+  test: {
+    environment: 'happy-dom'
+  },
   server: {
     port: 3000
   },

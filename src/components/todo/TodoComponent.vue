@@ -6,10 +6,10 @@ import axios from 'axios'
 
 const router = useRouter()
 const route = useRoute()
-const id = route.params.id
+const id = route ? route.params.id : null
 
 //* Check if create or update by checking if a query was passed in the url.
-const isUpdate = route.query && Object.keys(route.query).length > 0
+const isUpdate = route ? route.query && Object.keys(route.query).length > 0 : false
 const url = import.meta.env.VITE_BACKEND
 
 const priorityList = [
@@ -18,7 +18,7 @@ const priorityList = [
   { id: 3, priority: 2 }
 ];
 
-const name = ref('')
+const name = ref(route ? route.query.name : '')
 const description = ref('')
 const dueDate = ref('')
 const priority = ref(0)
@@ -36,7 +36,7 @@ onMounted(() => {
 const handleSubmit = async () => {
   //* name is a required field.
   if (name.value === '') {
-    toast.error('Please add all the fields.')
+    toast.error('Please add all the fields')
     return
   }
 
@@ -54,14 +54,14 @@ const handleSubmit = async () => {
     }
 
     //* Run update or create method depending on desired action.
-    if (isUpdate) {
+    if (isUpdate && id) {
       await axios.put(`${url}/tasks/${id}`, newTask, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         }
       })
-      toast.success('Task added succesfully.')
+      toast.success('Task added successfully.')
       setTimeout(() => {
         router.push({ name: 'home' })
       }, 1500)
@@ -72,7 +72,7 @@ const handleSubmit = async () => {
           'Content-Type': 'application/json'
         }
       })
-      toast.success('Task added succesfully.')
+      toast.success('Task added successfully.')
       setTimeout(() => {
         router.push({ name: 'home' })
       }, 1500)
@@ -84,7 +84,7 @@ const handleSubmit = async () => {
     dueDate.value = ''
     priority.value = 0
   } catch (error) {
-    toast.error(error.response.data.message)
+    toast.error(error.message)
   }
 }
 </script>
