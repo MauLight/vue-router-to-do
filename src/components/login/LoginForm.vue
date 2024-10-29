@@ -47,7 +47,7 @@ const handleSubmit = async () => {
     localStorage.setItem('to-do-user', JSON.stringify(response.data))
     router.push({ name: 'home' })
   } catch (error) {
-    toast.error(error.response.data.message)
+    toast.error(error.message)
   }
 }
 </script>

@@ -4,7 +4,6 @@ import axios from 'axios'
 import { toast } from 'vue3-toastify'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-// Mock axios and toast
 vi.mock('axios')
 vi.mock('vue3-toastify', () => ({
   toast: {
@@ -12,13 +11,6 @@ vi.mock('vue3-toastify', () => ({
     success: vi.fn()
   }
 }))
-
-// Mock environment variable
-vi.stubGlobal('import.meta', {
-  env: {
-    VITE_BACKEND: 'http://localhost:3001/api'
-  }
-})
 
 describe('TodoComponent', () => {
   let wrapper
