@@ -7,6 +7,8 @@ import axios from 'axios'
 
 const router = useRouter()
 const url = import.meta.env.VITE_BACKEND
+const isDelete = ref(false)
+const taskId = ref('0')
 
 //* Revoke access if no user is logged in.
 const user = JSON.parse(localStorage.getItem('to-do-user'))
@@ -37,20 +39,30 @@ const handleUpdateTask = (taskId) => {
   })
 }
 
-const handleDeleteTask = async (taskId) => {
+const handleConfirmDelete = async (id) => {
+  taskId.value = id
+  isDelete.value = true
+}
+
+const handleDeleteTask = async () => {
   try {
-    await axios.delete(`${url}/tasks/${taskId}`, {
+    await axios.delete(`${url}/tasks/${taskId.value}`, {
       headers: {
         'Authorization': `Bearer ${user.token}`,
         'Content-Type': 'application/json'
       }
     })
 
-    tasks.value = tasks.value.filter(task => task.id !== taskId)
+    tasks.value = tasks.value.filter(task => task.id !== taskId.value)
     toast.success('Task deleted succesfully.')
+    isDelete.value = false
   } catch (error) {
     toast.error(error.message)
   }
+}
+
+const handleCloseModal = () => {
+  isDelete.value = false
 }
 
 onMounted(async () => {
@@ -97,11 +109,25 @@ onMounted(async () => {
           <div class="flex gap-x-2">
             <button @click="handleUpdateTask(task.id)"
               class="h-full text-[0.8rem] text-gray-800 hover:text-[#ffffff] bg-[#ffffff] hover:bg-gray-800 px-2 rounded-[8px] border hover:border-[#ffffff] transition-colors duration-200">Update</button>
-            <button @click="handleDeleteTask(task.id)"
+            <button @click="handleConfirmDelete(task.id)"
               class="h-full text-[0.8rem] text-gray-800 hover:text-[#ffffff] bg-[#ffffff] hover:bg-red-600 px-2 rounded-[8px] border hover:border-[#ffffff] transition-colors duration-200">Delete</button>
           </div>
         </li>
       </ul>
+    </div>
+    <div v-if="isDelete" class="absolute top-0 left-0 w-screen h-screen flex justify-center items-center">
+      <div class="w-1/2 flex flex-col gap-y-5 p-5 z-20 bg-[#ffffff] rounded-[15px]">
+        <h1>Are you sure you want to delete this entry?</h1>
+        <div class="h-10 flex justify-end gap-x-2">
+          <button @click="handleCloseModal"
+            class="h-full text-[0.8rem] text-gray-800 hover:text-[#ffffff] bg-[#ffffff] hover:bg-gray-800 px-2 rounded-[8px] border hover:border-[#ffffff] transition-colors duration-200">Cancel</button>
+          <button @click="handleDeleteTask"
+            class="h-full text-[0.8rem] text-gray-800 hover:text-[#ffffff] bg-[#ffffff] hover:bg-red-600 px-2 rounded-[8px] border hover:border-[#ffffff] transition-colors duration-200">Delete</button>
+        </div>
+      </div>
+      <div @click="handleCloseModal"
+        class="absolute top-0 left-0 w-screen h-screen flex justify-center items-center bg-[#10100e] opacity-95 z-10">
+      </div>
     </div>
   </div>
 </template>
